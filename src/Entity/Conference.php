@@ -43,7 +43,10 @@ class Conference
     {
         $this->comments = new ArrayCollection();
     }
-
+    public function __toString(): string //la salida mucho mas significativa
+        {
+           return $this->city.' '.$this->year;
+    }
     public function getId(): ?int
     {
         return $this->id;

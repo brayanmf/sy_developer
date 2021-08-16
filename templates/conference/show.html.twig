@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}Conference Guestbook - {{ conference }}{% endblock %}
-
+{#conference = __tostring ->(city year)#}
 {% block body %}
+{% block title %}Conference Guestbook - {{ conference }}{% endblock %}
     <h2>{{ conference }} Conference</h2>
 
     {% if comments|length > 0 %}
+    <div>todos nuestros  {{ comments|length }} comentarios :].</div>
         {% for comment in comments %}
             {% if comment.photofilename %}
                 <img src="{{ asset('uploads/photos/' ~ comment.photofilename) }}" />
@@ -18,7 +18,15 @@
 
             <p>{{ comment.text }}</p>
         {% endfor %}
+
+
+        {% if previous >= 0 %}
+            <a href="{{ path('conference', { id: conference.id, offset: previous }) }}">Previous</a>{#path:para no cambiarlo manualmente a f #}
+            {% endif %}
+            {% if next < comments|length %}
+            <a href="{{ path('conference', { id: conference.id, offset: next }) }}">Next</a>
+       {% endif %}
     {% else %}
-        <div>No comments have been posted yet for this conference.</div>
+        <div>Aún no se han publicado comentarios para esta conferencia.</div>
     {% endif %}
-{% endblock %}
+    {% endblock %}

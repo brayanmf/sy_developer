@@ -1,10 +1,12 @@
 <?php
-
+//consultas especificas
 namespace App\Repository;
 
 use App\Entity\Comment;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\Entity\Conference;//importado
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\ORM\Tools\Pagination\Paginator;//importado
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Comment|null find($id, $lockMode = null, $lockVersion = null)
@@ -14,10 +16,24 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class CommentRepository extends ServiceEntityRepository
 {
+    public const PAGINATOR_PER_PAGE=2;//por cuanto quiero paginarlo :3
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Comment::class);
     }
+    public function getCommentPaginator(Conference $conference, int $offset): Paginator//offset->nos ayudar a identificar el id->conferencia por get
+        {
+            $query = $this->createQueryBuilder('c')//consulta orientado a objeto que ofrece ORM(query builder)
+                ->andWhere('c.conference = :conference')
+                ->setParameter('conference', $conference)
+                ->orderBy('c.createdAt', 'DESC')
+                ->setMaxResults(self::PAGINATOR_PER_PAGE)
+                ->setFirstResult($offset)//del resultado
+                ->getQuery()
+            ;
+    
+            return new Paginator($query);
+       }
 
     // /**
     //  * @return Comment[] Returns an array of Comment objects

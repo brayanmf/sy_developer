@@ -10,9 +10,14 @@
 <h2>Give Your feedback!</h2>
 {% for conference in conferences %}
     <h4>{{ conference }}</h4>
+    <p>
+    {#<a href="/conference/{{conference.id}}">View</a> lo malo es que a futuro si cambias la ruta del cntrolador
+     cambiarias manualmente este link.por eso path(ruta,id)#}
+      <a href="{{ path('conference', { id: conference.id }) }}">View</a>
+    </p>
     {% endfor %}
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+    <h1>my firts conference is good </h1>
 
 
   los mensajes de tus amigos:

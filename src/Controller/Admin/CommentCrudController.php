@@ -42,9 +42,9 @@ class CommentCrudController extends AbstractCrudController
         yield TextField::new('author');
         yield EmailField::new('email');
         yield TextareaField::new('text')->hideOnIndex();//ocultando en la tabla
-        yield TextField::new('photo_filename');
+        yield TextField::new('photo_filename');//photoFilename->se agrega un boton (asc,desc)
 
-        $createdAt = DateTimeField::new('createdAt')->setFormTypeOptions([//doc-la mostrar f
+        $createdAt = DateTimeField::new('createdAt')->setFormTypeOptions([// Asc,desc y mostrarnos un tipo de modif
             'html5' => true,
             'years' => range(date('Y'), date('Y') + 5),
             'widget' => 'single_text',

@@ -4,44 +4,48 @@ namespace App\Controller;
 
 use Twig\Environment;//para usar el twig
 //use App\Repository\ConferenceRepository;//para poder enviar los datos de la conferencia
-//use Symfony\Component\HttpFoundation\Request;get funcion para obtener 
-use App\Entity\Conference;//mi clase 
-use App\Repository\CommentRepository;//para datos
+use Symfony\Component\HttpFoundation\Request;//get funcion para obtener 
+use App\Entity\Conference;//mi clase donde esta __string()
+use App\Repository\CommentRepository;// datos del /admin
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\ConferenceRepository;
 
 class ConferenceController extends AbstractController
 {
-    #[Route('/conference/{id}', name: 'conference')]//name:referencia a la pagina de inicio
-    public function show(Environment $twig, Conference $conference,CommentRepository $commentRepository): Response
+
+    
+    #[Route('/', name: 'homepage')]//name:referencia a la pagina de inicio console ingresar el nombre y el id :i
+    
+       public function index(Environment $twig,ConferenceRepository $conferenceRepository): Response
+       {
+         return new Response($twig->render('conference/index.html.twig', [
+            'conferences' => $conferenceRepository->findAll(),
+        ]));
+     }
+    //hace una peticion por medio del id
+    #[Route('/conference/{id}', name: 'conference')]//name:referencia a la pagina de inicio console ingresar el nombre y el id :i
+    
+
+    public function show(Request $request, Environment $twig, Conference $conference, CommentRepository $commentRepository): Response
     {
+        $offset = max(0, $request->query->getInt('offset', 0));//coje de la peticion,por defecto lo coloca 0
+        $paginator = $commentRepository->getCommentPaginator($conference, $offset);
+
         return new Response($twig->render('conference/show.html.twig', [
             'conference' => $conference,
-            'comments' => $commentRepository->findBy(['conference'=>$conference],['createdAt'=>'DESC']),
-                ]));
+            //createAD-> desc de:ultimo a inicio respecto al  id(coment)
+            'comments' => $commentRepository->findBy(['conference' => $conference], ['createdAt' => 'DESC']),
+           'comments' => $paginator,
+           //hace los calculos 
+            'previous' => $offset - CommentRepository::PAGINATOR_PER_PAGE,
+            'next' => min(count($paginator), $offset + CommentRepository::PAGINATOR_PER_PAGE),
+        ]));
 
     }
-   /* public function index(): Response */ //el por dfecto
-   
-        /*return $this->render('conference/index.html.twig', [
-            'controller_name' => 'ConferenceController',
-        ]);*/
 
 
-  /* public function index(Request $request): Response//lo basico para ver el funcionamiento get
-    {
-        $greet='';
-        if($name=$request->query->get('hello')){//el get de la url a recibir
-            $greet=sprintf('<h1>Hello %s!</h1>',htmlspecialchars($name));
-        }
-        return new Response(<<<EOF
-        <html>
-          <body>
-          $greet
-              <img src="/images/mouse.jpg" />
-          </body>
-        </html>
-        EOF
-              ); */
+
+ 
 }

@@ -17,7 +17,7 @@ final class Version20210803035904 extends AbstractMigration
         return '';
     }
 
-    public function up(Schema $schema): void
+    public function up(Schema $schema): void //crear
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE SEQUENCE comment_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
@@ -28,7 +28,7 @@ final class Version20210803035904 extends AbstractMigration
         $this->addSql('ALTER TABLE comment ADD CONSTRAINT FK_9474526C604B8382 FOREIGN KEY (conference_id) REFERENCES conference (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
     }
 
-    public function down(Schema $schema): void
+    public function down(Schema $schema): void //eliminar 
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE SCHEMA public');

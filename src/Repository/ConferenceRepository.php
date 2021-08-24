@@ -1,5 +1,5 @@
 <?php
-
+//consultas especificas segun  tu proyecto, para el controller
 namespace App\Repository;
 
 use App\Entity\Conference;
@@ -18,6 +18,10 @@ class ConferenceRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Conference::class);
     }
+    public function findAll()
+       {
+            return $this->findBy([], ['year' => 'ASC', 'city' => 'ASC']);//no es necesario los 2 :]
+        }
 
     // /**
     //  * @return Conference[] Returns an array of Conference objects

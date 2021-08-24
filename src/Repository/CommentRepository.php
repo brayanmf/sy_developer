@@ -1,5 +1,5 @@
 <?php
-//consultas especificas
+//consultas especificas segun  tu proyecto
 namespace App\Repository;
 
 use App\Entity\Comment;
@@ -21,7 +21,7 @@ class CommentRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Comment::class);
     }
-    public function getCommentPaginator(Conference $conference, int $offset): Paginator//offset->nos ayudar a identificar el id->conferencia por get
+    public function getCommentPaginator(Conference $conference, int $offset): Paginator//offset->nos ayudar a identificar el id->conferencia por get en controller
         {
             $query = $this->createQueryBuilder('c')//consulta orientado a objeto que ofrece ORM(query builder)
                 ->andWhere('c.conference = :conference')

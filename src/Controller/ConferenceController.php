@@ -10,7 +10,7 @@ use App\Repository\CommentRepository;// datos del easyadmin "db"
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use App\Repository\ConferenceRepository;
+//*2use App\Repository\ConferenceRepository;
 
 class ConferenceController extends AbstractController
 {
@@ -18,7 +18,7 @@ class ConferenceController extends AbstractController
     
     #[Route('/', name: 'homepage')]//name:referencia a la pagina de inicio -_- para twig
     
-       public function index(Environment $twig,ConferenceRepository $conferenceRepository): Response
+       public function index(Environment $twig/*,ConferenceRepository $conferenceRepository*/): Response
        {
          return new Response($twig->render('conference/index.html.twig', [//solo rendizamos ya que es global en conference en twig
            // 'conferences' => $conferenceRepository->findAll(),//imagina querer obtener los datos en varias funciones por eso,
@@ -31,7 +31,7 @@ class ConferenceController extends AbstractController
 
     public function show(Request $request, Environment $twig, Conference $conference, CommentRepository $commentRepository): Response
     {
-        $offset = max(0, $request->query->getInt('offset', 0));//coje de la peticion,por defecto lo coloca 0,o le devuelve int
+        $offset = max(0, $request->query->getInt('offset', 0));//coje de la peticion,por defecto lo coloca 0, le devuelve int
         $paginator = $commentRepository->getCommentPaginator($conference, $offset);
 
         return new Response($twig->render('conference/show.html.twig', [

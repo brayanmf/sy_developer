@@ -47,7 +47,7 @@ class Comment
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $photoFilename;
-    public function __toString(): string //adorono :,|
+    public function __toString(): string //para controlador ,plantilla"twig" :,|
         {
             return (string) $this->getEmail();
        }

@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=CommentRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Comment
 {
@@ -47,10 +48,19 @@ class Comment
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $photoFilename;
-    public function __toString(): string //para controlador ,plantilla"twig" :,|
-        {
-            return (string) $this->getEmail();
-       }
+  
+//callback simple
+
+    /**
+     * @ORM\PrePersist
+     */
+
+    public function setCreatedAtValue()//cuando el objeto se almacena en la base,prepersist-> antes de insertar a la db 
+    {//asi usamos la locacion actual del usuario extranjero-
+        $this->createdAt = new \DateTime();
+    }
+
+
 
     public function getId(): ?int
     {

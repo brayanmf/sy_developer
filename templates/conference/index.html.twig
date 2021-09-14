@@ -13,7 +13,7 @@
     <p>
     {#<a href="/conference/{{conference.id}}">View</a> lo malo es que a futuro si cambias la ruta del cntrolador
      cambiarias manualmente este link.por eso path(ruta,id)#}
-      <a href="{{ path('conference', { id: conference.id }) }}">View</a>
+      <a href="{{ path('conference', { slug: conference.slug }) }}">View</a>
     </p>
     {% endfor %}
 <div class="example-wrapper">

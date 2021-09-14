@@ -6,6 +6,7 @@ use Twig\Environment;//para usar el twig
 //use App\Repository\ConferenceRepository;//para poder enviar los datos de la conferencia
 use Symfony\Component\HttpFoundation\Request;//get funcion para obtener 
 use App\Entity\Conference;//mi clase donde esta __string()
+use App\Entity\Comment;//prueba
 use App\Repository\CommentRepository;// datos del easyadmin "db"
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -26,7 +27,7 @@ class ConferenceController extends AbstractController
         ]));
      }
     //hace una peticion por medio del id
-    #[Route('/conference/{id}', name: 'conference')]//name:referencia a la pagina de inicio console ingresar el nombre y el id :i
+    #[Route('/conference/{slug}', name: 'conference')]//name:referencia a la pagina de inicio console ingresar el nombre y el id :i(slug unico)
     
 
     public function show(Request $request, Environment $twig, Conference $conference, CommentRepository $commentRepository): Response
@@ -35,11 +36,11 @@ class ConferenceController extends AbstractController
         $paginator = $commentRepository->getCommentPaginator($conference, $offset);
 
         return new Response($twig->render('conference/show.html.twig', [
-            'conference' => $conference,
-            //createAD-> desc de:ultimo a inicio respecto al  id(coment)
+           'conference' => $conference,
+            //createAD->la relacion desc de:ultimo a inicio respecto al  id(coment)
             'comments' => $commentRepository->findBy(['conference' => $conference], ['createdAt' => 'DESC']),
           
-          
+        
             'comments' => $paginator,
            //hace los calculos 
             'previous' => $offset - CommentRepository::PAGINATOR_PER_PAGE,

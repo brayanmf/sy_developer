@@ -52,7 +52,7 @@ class Conference//uniqueentity valide antes de enviar a la db en la app
     {
         $this->comments = new ArrayCollection();
     }
-    public function __toString(): string //la salida mucho mas significativa para twig
+    public function __toString(): string //la salida para usarlo en el controller  para twig
         {
            return $this->city.' '.$this->year;
     }

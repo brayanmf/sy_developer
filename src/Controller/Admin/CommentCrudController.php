@@ -11,6 +11,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Filter\EntityFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 
 class CommentCrudController extends AbstractCrudController
 {
@@ -42,9 +43,11 @@ class CommentCrudController extends AbstractCrudController
         yield TextField::new('author');
         yield EmailField::new('email');
         yield TextareaField::new('text')->hideOnIndex();//ocultando en la tabla
-        yield TextField::new('photo_filename');//photoFilename->se agrega un boton (asc,desc)
+        yield ImageField::new('photo_filename')->setBasePath('/uploads/photos')->setLabel('Photo')->onlyOnIndex();//onlyindex oculto al editar crear etc
+        
+     //  yield TextField::new('photo_filename');//el url :]
 
-        $createdAt = DateTimeField::new('createdAt')->setFormTypeOptions([// Asc,desc y mostrarnos un tipo de modif
+        $createdAt = DateTimeField::new('createdAt')->setFormTypeOptions([// Asc,desc ->flechabtn y mostrarnos un tipo de modif
             'html5' => true,
             'years' => range(date('Y'), date('Y') + 5),
             'widget' => 'single_text',

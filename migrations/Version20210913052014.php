@@ -21,7 +21,7 @@ final class Version20210913052014 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE conference ADD slug VARCHAR(255)');//AGREGANDO tabla
-        $this->addSql("UPDATE conference SET slug=CONCAT(LOWER(city),'-',year)");//update masivo  *truco para modficar
+        $this->addSql("UPDATE conference SET slug=CONCAT(LOWER(city),'-',year)");//update lower(minuscula y concatenar los campos para el slug) masivo  *truco para modficar
         $this->addSql('ALTER TABLE conference ALTER COLUMN slug SET NOT NULL');//ALTERANDO la table * para modificar
     }
   

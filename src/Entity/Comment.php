@@ -2,8 +2,10 @@
 
 namespace App\Entity;
 
-use App\Repository\CommentRepository;
+
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\CommentRepository;
+use Symfony\Component\Validator\Constraints as Assert;//validar nuestro formulario de entrada
 
 /**
  * @ORM\Entity(repositoryClass=CommentRepository::class)
@@ -20,18 +22,23 @@ class Comment
 
     /**
      * @ORM\Column(type="string", length=255)
+     
      */
-    private $author;
+    #[Assert\NotBlank]
+    private $author;//no contener valor vacio en form[assert]
 
     /**
      * @ORM\Column(type="text")
      */
-    private $text;
+    #[Assert\NotBlank]
+    private $text;//no contener valor vacio en form [assert]
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $email;
+    #[Assert\NotBlank]
+    #[Assert\Email]
+    private $email;//==@Assert\NotBlank() ->dentro del /** */ */
 
     /**
      * @ORM\Column(type="datetime")
@@ -56,7 +63,7 @@ class Comment
      */
 
     public function setCreatedAtValue()//cuando el objeto se almacena en la base,prepersist-> antes de insertar a la db 
-    {//asi usamos la locacion actual del usuario extranjero-
+    {//asi usamos el tiempo actual respecto al horario europa :c s
         $this->createdAt = new \DateTime();
     }
 
